@@ -1,0 +1,1 @@
+luna-send -n 1 -f luna://nl.slg.tv.service/start '{}'

@@ -1,0 +1,9 @@
+{
+  "id": "nl.slg.tv.service",
+  "description": "HelloWorld Service",
+  "services": [
+    {
+      "name": "nl.slg.tv.service"
+    }
+  ]
+}
