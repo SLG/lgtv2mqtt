@@ -1,5 +1,5 @@
 # tv-service
-
+For WebOS 6. Maybe it works for earlier or later versions...?
 ## Setup tv
 I'm not really sure if it's needed to do this, but it makes it easier to get the service started automatically.
 - So start with https://rootmy.tv
