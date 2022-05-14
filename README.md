@@ -38,7 +38,17 @@ chmod +x start-tv-service.sh
 ```
 After that, the service should start automatically.
 ## Using the service
-*TBD*
+In Home Assistant, add two new sensors:
+```yaml
+sensor:
+  - platform: mqtt
+    name: "LG TV PlayState"
+    state_topic: "tv-service/playState"
+  - platform: mqtt
+    name: "LG TV AppId"
+    state_topic: "tv-service/appId"
+```
+Now you can make an automation to listen to these states and turn lights on or off, or whatever you want to do...
 
 # TODO
 - Setup Home Assistant with a sensor, and document here
