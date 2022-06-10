@@ -32,9 +32,9 @@ ares-shell -r "luna-send -n 1 -f luna://nl.slg.tv.service/start '{}'"
 
 But you can also use a script to start the service automatically when starting the tv.
 
-Copy the *start-tv-service.sh*-file to */var/lib/webosbrew/init.d* and make it executable: 
+Copy the *start_tv_service*-file to */var/lib/webosbrew/init.d* and make it executable: 
 ```
-chmod +x start-tv-service.sh
+chmod +x start_tv_service
 ```
 After that, the service should start automatically.
 ## Using the service
