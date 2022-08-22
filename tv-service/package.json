@@ -1,14 +1,11 @@
 {
-  "name": "nl.slg.tv.service",
+  "name": "com.slg.tv.service",
   "version": "1.0.0",
-  "description": "Helloworld service",
+  "description": "MQTT TV Service",
   "main": "index.js",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "",
-  "license": "BSD",
-  "dependencies": {
-    "mqtt": "^4.3.7"
-  }
+  "license": "BSD"
 }

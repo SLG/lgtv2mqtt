@@ -1,88 +1,30 @@
-<!--
-Copyright (c) 2020-2022 LG Electronics Inc.
-
-SPDX-License-Identifier: Apache-2.0
--->
-
 <!DOCTYPE html>
 <html>
+
 <head>
-<title>Example Web App</title>
-<style type="text/css">
-    body {
-        width: 100%;
-        height: 100%;
-        background-color:#202020;
-    }
-    div {
-        position:absolute;
-        height:100%;
-        width:100%;
-        display: table;
-    }
-    h1 {
-        display: table-cell;
-        vertical-align: middle;
-        text-align:center;
-        color:#FFFFFF;
-    }
-</style>
-<script type="text/javascript">
-window.onload = function() {
-    var bridge = new WebOSServiceBridge();
-    /*
-     *  getTimeApi calls gettime of systemservice, a module in the platform.
-     */
-    var getTimeApi = 'luna://com.webos.service.systemservice/clock/getTime';
-    var getTimeParams = '{}';
-
-    /*
-     *  helloApi calls the hello method of js_service template provided by CLI.
-     *  In this case, the service name is used as default name "com.domain.app.service" is.
-     *  If you change this service name, you need to change the service name of the following API.
-     *
-     *  If you change the name to helloParmas as you want, the contents will be reflected on the screen.
-     */
-    var helloApi = 'luna://com.domain.app.service/hello';
-    var helloParams = '{"name":"webOS"}';
-
-    function getTime_callback(msg){
-        var arg = JSON.parse(msg);
-        if (arg.returnValue) {
-            console.log("[APP_NAME: example web app] GETTIME_SUCCESS UTC : " + arg.utc);
-            //webOSSystem.PmLogString(6, "GETTIME_SUCCESS", '{"APP_NAME": "example web app"}', "UTC : " + arg.utc);
-        }
-        else {
-            console.error("[APP_NAME: example web app] GETTIME_FAILED errorText : " + arg.errorText);
-            //webOSSystem.PmLogString(3, "GETTIME_FAILED", '{"APP_NAME": "example web app"}', "errorText : " + arg.errorText);
-        }
-    }
-
-    function hello_callback(msg){
-        var arg = JSON.parse(msg);
-        if (arg.returnValue) {
-            document.getElementById("txt_msg").innerHTML = arg.Response;
-            console.log("[APP_NAME: example web app] CALLHELLO_SUCCESS response : " + arg.Response);
-            //webOSSystem.PmLogString(6, "CALLHELLO_SUCCESS", '{"APP_NAME": "example web app"}', "response : " + arg.Response);
-        }
-        else {
-            console.error("[APP_NAME: example web app] CALLHELLO_FAILED errorText : " + arg.errorText);
-            //webOSSystem.PmLogString(3, "CALLHELLO_FAILED", '{"APP_NAME": "example web app"}', "errorText : " + arg.errorText);
-        }
-    }
-
-    bridge.onservicecallback = getTime_callback;
-    bridge.call(getTimeApi, getTimeParams);
-    document.getElementById("txt_msg").onclick = function() {
-        bridge.onservicecallback = hello_callback;
-        bridge.call(helloApi, helloParams);
-    };
-}
-</script>
+    <link rel="stylesheet" href="styles.css">
+    <script type="text/javascript" src="webOSTVjs-1.2.4/webOSTV.js"></script>
+    <script type="text/javascript" src="js/script.js"></script>
+    <title>MQTT TV Service</title>
 </head>
+
 <body>
-    <div>
-        <h1 id="txt_msg">Hello, Web Application!!</h1>
+<div>
+    <!--TODO add input for server connection, and call to update that, find out how config could work	-->
+    <input type="button" value="START" onclick="start()" class="btn">
+    <input type="button" value="STOP" onclick="stop()" class="btn">
+    <input type="button" value="GET LOGS" onclick="getLogs()" class="btn">
+    <input type="button" value="CLEAR LOGS" onclick="clearLogs()" class="btn">
+    <div class="state">
+        <div id="state"></div>
     </div>
+    <div id="logs">
+        <ul id="list"></ul>
+    </div>
+    <div>
+        <div id="error"></div>
+    </div>
+</div>
 </body>
+
 </html>

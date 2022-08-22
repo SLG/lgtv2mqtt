@@ -1,0 +1,33 @@
+
+body {
+    width: 100vw;
+    height: 100vh;
+    background-color: #202020;
+}
+
+* {
+    vertical-align: middle;
+    text-align: center;
+    color: #FFFFFF;
+    font-size: 40px;
+}
+
+h1 {
+    color: #a0a0a0;
+}
+
+.btn {
+    height: 10vh;
+    width: 20vw;
+    background-color: #050505;
+}
+
+.logs {
+    overflow-y: scroll;
+}
+
+li {
+    vertical-align: top;
+    text-align: left;
+    font-size: 12px;
+}

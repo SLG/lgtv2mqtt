@@ -1,9 +1,9 @@
 {
-  "id": "nl.slg.tv.service",
-  "description": "HelloWorld Service",
+  "id": "com.slg.tv.service",
+  "description": "MQTT TV Service",
   "services": [
     {
-      "name": "nl.slg.tv.service"
+      "name": "com.slg.tv.service"
     }
   ]
 }

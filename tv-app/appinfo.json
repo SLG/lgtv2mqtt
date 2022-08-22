@@ -1,13 +1,10 @@
 {
-  "id": "nl.slg.tv",
+  "id": "com.slg.tv",
   "version": "0.0.1",
-  "vendor": "My Company",
+  "vendor": "SLG",
   "type": "web",
   "main": "index.html",
-  "title": "SL-App",
+  "title": "MQTT TV App",
   "icon": "icon.png",
-  "requiredPermissions": [
-    "time.query",
-    "activity.operation"
-  ]
+  "largeIcon": "largeIcon.png"
 }
