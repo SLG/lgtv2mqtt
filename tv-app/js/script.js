@@ -1,48 +1,70 @@
 function start() {
-    webOS.service.request("luna://com.slg.tv.service/", {
-        method: 'start',
-        onFailure: showFailure,
-        onSuccess: showSuccess
-    });
-    getState();
+    try {
+        webOS.service.request("luna://com.slg.tv.service/", {
+            method: 'start',
+            onFailure: (err) => showFailure('start', err),
+            onSuccess: showSuccess
+        });
+        getState();
+    } catch (err) {
+        showFailure('start - catch', err)
+    }
 }
 
 function stop() {
-    webOS.service.request("luna://com.slg.tv.service/", {
-        method: 'stop',
-        onFailure: showFailure,
-        onSuccess: showSuccess
-    });
-    getState();
+    try {
+        webOS.service.request("luna://com.slg.tv.service/", {
+            method: 'stop',
+            onFailure: (err) => showFailure('stop', err),
+            onSuccess: showSuccess
+        });
+        getState();
+    } catch (err) {
+        showFailure('stop - catch', err)
+    }
 }
 
 function getState() {
-    webOS.service.request("luna://com.slg.tv.service/", {
-        method: 'getState',
-        onFailure: showFailure,
-        onSuccess: (res) => {
-            document.getElementById("state").innerHTML = `Current state: ${res.state}`;
-        }
-    });
+    try {
+        webOS.service.request("luna://com.slg.tv.service/", {
+            method: 'getState',
+            onFailure: (err) => showFailure('getState', err),
+            onSuccess: (res) => {
+                document.getElementById("state").innerHTML = `Current state: ${res.state}`;
+            }
+        });
+    } catch (err) {
+        showFailure('getState - catch', err)
+    }
 }
 
 function getLogs() {
-    webOS.service.request("luna://com.slg.tv.service/", {
-        method: 'logs',
-        onFailure: showFailure,
-        onSuccess: showSuccess
-    });
+    try {
+        webOS.service.request("luna://com.slg.tv.service/", {
+            method: 'logs',
+            onFailure: (err) => showFailure('getLogs', err),
+            onSuccess: showSuccess
+        });
+    } catch (err) {
+        showFailure('getLogs - catch', err)
+    }
 }
 
 function clearLogs() {
-    webOS.service.request("luna://com.slg.tv.service/", {
-        method: 'clearLogs',
-        onFailure: showFailure,
-        onSuccess: showSuccess
-    });
+    try {
+        webOS.service.request("luna://com.slg.tv.service/", {
+            method: 'clearLogs',
+            onFailure: (err) => showFailure('clearLogs', err),
+            onSuccess: showSuccess
+        });
+    } catch (err) {
+        showFailure('clearLogs - catch', err)
+    }
 }
 
 function showSuccess(res) {
+    document.getElementById("error").innerHTML = '';
+
     document.getElementById("list").innerHTML = '';
     if (!res.logs || res.logs.length === 0) {
         let li = document.createElement('li');
@@ -56,10 +78,10 @@ function showSuccess(res) {
     });
 }
 
-function showFailure(err) {
-    document.getElementById("error").innerHTML = `Failed: ${JSON.stringify(err)}`;
+function showFailure(method, err) {
+    document.getElementById("error").innerHTML = `${method} failed: ${JSON.stringify(err)}`;
+    console.error(method, err)
 }
-
 
 document.addEventListener('visibilitychange', function () {
     if (!document.hidden) {
@@ -67,3 +89,15 @@ document.addEventListener('visibilitychange', function () {
         getLogs();
     }
 }, true);
+
+// function getConfigFile() {
+//     console.log('getConfigFile')
+//     webOS.service.request("luna://com.slg.tv.service/", {
+//         method: 'getConfig',
+//         onFailure: (err) => showFailure('getConfigFile', err),
+//         onSuccess: (resp) => {
+//             console.log('done')
+//             console.log(resp);
+//         }
+//     });
+// }

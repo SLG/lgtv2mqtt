@@ -1,6 +1,7 @@
 const pkgInfo = require('./package.json');
 const Service = require('webos-service');
 const mqtt = require('mqtt');
+const {log, getLogs, clearLogs} = require("./log");
 
 // CHANGE THESE VALUES ACCORDINGLY
 const host = 'YOUR MQTT BROKER HOST';
@@ -22,12 +23,6 @@ let client;
 
 let state = 'NOT STARTED';
 
-const logs = [];
-
-function log(...s) {
-    logs.unshift(`${new Date().toISOString()} - ${s}`);
-}
-
 service.register('start', function (message) {
     try {
         log('starting service');
@@ -38,16 +33,17 @@ service.register('start', function (message) {
         });
         log('registered keepAlive');
 
-        log('connecting to mqtt server');
         // Connect to the MQTT broker
-        client = mqtt.connect(connectUrl, {
+        const mqttConfig = {
             clientId,
             clean: true,
             connectTimeout: 4000,
             username,
             password,
             reconnectPeriod: 1000,
-        });
+        };
+        log(`connecting to mqtt server with: ${JSON.stringify(mqttConfig)}`);
+        client = mqtt.connect(connectUrl, mqttConfig);
         log('connected to mqtt server');
 
         log('subscribing to media service');
@@ -81,14 +77,14 @@ service.register('start', function (message) {
         log('started service');
         message.respond({
             started: true,
-            logs,
+            logs: getLogs(),
         });
         state = 'STARTED';
     } catch (err) {
-        log(`failed: ${JSON.stringify(err)}`);
+        log(`failed starting: ${JSON.stringify(err)}`);
         message.respond({
             started: false,
-            logs,
+            logs: getLogs(),
         });
         state = 'FAILED TO START';
     }
@@ -108,14 +104,14 @@ service.register('stop', function (message) {
 
         message.respond({
             stopped: true,
-            logs
+            logs: getLogs()
         });
         state = 'STOPPED';
     } catch (err) {
-        log(`failed: ${JSON.stringify(err)}`);
+        log(`failed stopping: ${JSON.stringify(err)}`);
         message.respond({
             started: false,
-            logs,
+            logs: getLogs(),
         });
         state = 'FAILED TO STOP';
     }
@@ -123,22 +119,22 @@ service.register('stop', function (message) {
 
 service.register('logs', function (message) {
     message.respond({
-        logs,
-    })
-})
+        logs: getLogs(),
+    });
+});
 
 service.register('clearLogs', function (message) {
-    logs.length = 0;
+    clearLogs();
 
     message.respond({
         cleared: true,
-        logs
-    })
-})
+        logs: getLogs()
+    });
+});
 
 service.register('getState', function (message) {
     message.respond({
         state,
-        logs
-    })
-})
+        logs: getLogs()
+    });
+});
