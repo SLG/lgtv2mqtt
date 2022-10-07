@@ -5,7 +5,7 @@ For WebOS 6. Maybe it works for earlier or later versions...?
 There are two options:
 
 ### WebOS developer
-You can use the default way, as a LG WebOS developer: https://webostv.developer.lge.com/develop/app-test/using-devmode-app/
+You can use the default way, as a LG WebOS developer: https://webostv.developer.lge.com/develop/getting-started/developer-mode-app
 
 ### Rooted TV
 Or you can root your tv, and get some additional options:
@@ -62,3 +62,4 @@ Now you can make an automation to listen to these states and turn lights on or o
 # TODO
 - Use the app to configure the service via the tv
 - Send a screenshot/some color information to color lights when pausing
+- Move to Typescript

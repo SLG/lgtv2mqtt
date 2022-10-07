@@ -5,7 +5,7 @@ const {log, getLogs, clearLogs} = require("./log");
 
 // CHANGE THESE VALUES ACCORDINGLY
 const host = 'YOUR MQTT BROKER HOST';
-const port = '1883'; // OR THE POR OF THE BROKER
+const port = '1883'; // OR THE PORT OF THE BROKER
 const username = 'YOUR MQTT USERNAME';
 const password = 'YOUR MQTT PASSWORD';
 
