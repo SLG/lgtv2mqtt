@@ -5,7 +5,10 @@ For WebOS 6. Maybe it works for earlier or later versions...?
 There are two options:
 
 ### WebOS developer
-You can use the default way, as a LG WebOS developer: https://webostv.developer.lge.com/develop/getting-started/developer-mode-app
+You can use the default way, as an LG WebOS developer: https://webostv.developer.lge.com/develop/getting-started/developer-mode-app
+
+#### (TODO)
+Renew automatically: https://github.com/SR-Lut3t1um/Webos-renew-dev/
 
 ### Rooted TV
 Or you can root your tv, and get some additional options:
@@ -38,6 +41,7 @@ The service and app are now installed.
 ## Starting the service
 The app is now installed on the home screen, and can be started from there.
 
+### Rooted
 If you've rooted your tv, you can also use a script to start the service automatically when starting the tv.
 
 Copy the *start_tv_service*-file to */var/lib/webosbrew/init.d* and make it executable: 
@@ -45,6 +49,41 @@ Copy the *start_tv_service*-file to */var/lib/webosbrew/init.d* and make it exec
 chmod +x start_tv_service
 ```
 After that, the service should start automatically.
+
+### Automatically with an automation
+
+Based on a notification (Can MQTT be turned on?) and [home-assistant-variables](https://github.com/snarky-snark/home-assistant-variables):
+
+```yaml
+alias: "Start TV app MQTT "
+description: ""
+trigger:
+  - platform: event
+    event_type: mobile_app_notification_action
+    event_data:
+      action: TURN_TV_MQTT_ON
+condition: []
+action:
+  - service: var.update
+    data:
+      entity_id: var.tv_media_source
+  - service: media_player.select_source
+    data:
+      source: MQTT TV App
+    target:
+      entity_id: media_player.living_room_tv
+  - delay:
+      hours: 0
+      minutes: 0
+      seconds: 5
+      milliseconds: 0
+  - service: media_player.select_source
+    data:
+      source: "{{states('var.tv_media_source')}}"
+    target:
+      entity_id: media_player.living_room_tv
+mode: single
+```
 
 ## Using the service
 In Home Assistant, add two new sensors:

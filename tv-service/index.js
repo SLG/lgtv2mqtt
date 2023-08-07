@@ -24,6 +24,14 @@ let client;
 let state = 'NOT STARTED';
 
 service.register('start', function (message) {
+    start(message);
+});
+
+function start(message) {
+    if (state === 'STARTED') {
+        return;
+    }
+
     try {
         log('starting service');
         // This tells the ActivityManager to keep the service running in the background, so the MQTT connection will be kept alive.
@@ -88,7 +96,7 @@ service.register('start', function (message) {
         });
         state = 'FAILED TO START';
     }
-});
+}
 
 service.register('stop', function (message) {
     try {
