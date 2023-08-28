@@ -1,20 +1,11 @@
 # MQTT WebOS Service
 For WebOS 6. Maybe it works for earlier or later versions...?
 ## Setup tv
-
-There are two options:
-
 ### WebOS developer
 You can use the default way, as an LG WebOS developer: https://webostv.developer.lge.com/develop/getting-started/developer-mode-app
 
 #### (TODO)
 Renew automatically: https://github.com/SR-Lut3t1um/Webos-renew-dev/
-
-### Rooted TV
-Or you can root your tv, and get some additional options:
-- So start with https://rootmy.tv
-- Enable the SSH server in the *Homebrew Channel*
-- Set up your dev environment with the *ares-cli*: https://www.webosbrew.org/pages/configuring-sdk.html
 
 ### Connect TV
 - Then you can connect with your tv: 
@@ -24,6 +15,10 @@ ares-setup-device
 
 ## Install app and service
 - Check out the code
+- Run the following command:
+```shell
+npm install
+```
 - Update these fields:
 ```javascript
 const host = 'YOUR MQTT BROKER HOST';
@@ -40,15 +35,6 @@ The service and app are now installed.
 
 ## Starting the service
 The app is now installed on the home screen, and can be started from there.
-
-### Rooted
-If you've rooted your tv, you can also use a script to start the service automatically when starting the tv.
-
-Copy the *start_tv_service*-file to */var/lib/webosbrew/init.d* and make it executable: 
-```shell
-chmod +x start_tv_service
-```
-After that, the service should start automatically.
 
 ### Automatically with an automation
 
