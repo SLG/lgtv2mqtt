@@ -1,9 +1,9 @@
 {
-  "id": "com.slg.tv.service",
-  "description": "MQTT TV Service",
+  "id": "com.slg.lgtv2mqtt.service",
+  "description": "LG TV 2 MQTT TV Service",
   "services": [
     {
-      "name": "com.slg.tv.service"
+      "name": "com.slg.lgtv2mqtt.esrvice"
     }
   ]
 }

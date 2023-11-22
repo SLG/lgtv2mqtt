@@ -1,6 +1,6 @@
 function start() {
     try {
-        webOS.service.request("luna://com.slg.tv.service/", {
+        webOS.service.request("luna://com.slg.lgtv2mqtt.service/", {
             method: 'start',
             onFailure: (err) => showFailure('start', err),
             onSuccess: showSuccess
@@ -13,7 +13,7 @@ function start() {
 
 function stop() {
     try {
-        webOS.service.request("luna://com.slg.tv.service/", {
+        webOS.service.request("luna://com.slg.lgtv2mqtt.service/", {
             method: 'stop',
             onFailure: (err) => showFailure('stop', err),
             onSuccess: showSuccess
@@ -26,7 +26,7 @@ function stop() {
 
 function getState() {
     try {
-        webOS.service.request("luna://com.slg.tv.service/", {
+        webOS.service.request("luna://com.slg.lgtv2mqtt.service/", {
             method: 'getState',
             onFailure: (err) => showFailure('getState', err),
             onSuccess: (res) => {
@@ -40,7 +40,7 @@ function getState() {
 
 function getLogs() {
     try {
-        webOS.service.request("luna://com.slg.tv.service/", {
+        webOS.service.request("luna://com.slg.lgtv2mqtt.service/", {
             method: 'logs',
             onFailure: (err) => showFailure('getLogs', err),
             onSuccess: showSuccess
@@ -52,7 +52,7 @@ function getLogs() {
 
 function clearLogs() {
     try {
-        webOS.service.request("luna://com.slg.tv.service/", {
+        webOS.service.request("luna://com.slg.lgtv2mqtt.service/", {
             method: 'clearLogs',
             onFailure: (err) => showFailure('clearLogs', err),
             onSuccess: showSuccess
@@ -92,7 +92,7 @@ document.addEventListener('visibilitychange', function () {
 
 // function getConfigFile() {
 //     console.log('getConfigFile')
-//     webOS.service.request("luna://com.slg.tv.service/", {
+//     webOS.service.request("luna://com.slg.lgtv2mqtt.service/", {
 //         method: 'getConfig',
 //         onFailure: (err) => showFailure('getConfigFile', err),
 //         onSuccess: (resp) => {
