@@ -28,6 +28,9 @@ const password = 'YOUR MQTT PASSWORD';
 ```
 - Run the following commands:
 ```shell
+cd tv-service
+npm i
+cd ..
 ares-package tv-app/ tv-service/
 ares-install ./com.slg.tv_0.0.1_all.ipk
 ```
