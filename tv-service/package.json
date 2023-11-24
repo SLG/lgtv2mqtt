@@ -1,5 +1,5 @@
 {
-  "name": "com.slg.lgtv2mqtt",
+  "name": "com.slg.lgtv2mqtt.service",
   "version": "1.0.0",
   "description": "LG TV 2 MQTT TV Service",
   "main": "index.js",
