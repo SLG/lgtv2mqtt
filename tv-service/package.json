@@ -4,7 +4,7 @@
   "description": "LG TV 2 MQTT TV Service",
   "main": "index.js",
   "scripts": {
-    "postbuild-win": "copy \"services.json\" \"dist/\" && copy \"package.json\" \"dist/package.json\" && cd dist && npm install --only=production",
+    "postbuild-win": "copy \"services.json\" \"dist/\" && copy \"package.json\" \"dist/package.json\" && cd dist && npm install --omit=dev",
     "build": "tsc",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
