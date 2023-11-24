@@ -4,3 +4,4 @@
 node_modules/
 *.ipk
 package-lock.json
+dist/

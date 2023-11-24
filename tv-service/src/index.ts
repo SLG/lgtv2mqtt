@@ -1,7 +1,7 @@
-const pkgInfo = require('./package.json');
-const Service = require('webos-service');
-const mqtt = require('mqtt');
-const { log, getLogs, clearLogs } = require("./log");
+import Service, { Message } from 'webos-service';
+import { Client, connect, IClientOptions, IClientPublishOptions } from 'mqtt';
+
+import { clearLogs, getLogs, log } from './log';
 
 // CHANGE THESE VALUES ACCORDINGLY
 const host = 'YOUR MQTT BROKER HOST';
@@ -12,7 +12,7 @@ const password = 'YOUR MQTT PASSWORD';
 // This should be unique across the MQTT network. If you're using this on multiple TVs, update this
 const deviceID = 'webOSTVService'
 
-const service = new Service(pkgInfo.name); // Create service by service name on package.json
+const service = new Service("com.slg.lgtv2mqtt.service"); // Create service by service name on package.json
 const clientId = `mqtt_${Math.random().toString(16).slice(3)}`;
 const connectUrl = `mqtt://${host}:${port}`;
 
@@ -24,9 +24,9 @@ const topicAutoDiscoveryType = `homeassistant/sensor/${deviceID}/type/config`;
 const topicAvailability = `LG2MQTT/${deviceID}/availability`;
 const topicState = `LG2MQTT/${deviceID}/state`;
 
-let keepAlive;
+let keepAlive: Record<string, any>;
 
-let client;
+let client: Client;
 
 let state = 'NOT STARTED';
 
@@ -34,7 +34,7 @@ service.register('start', function (message) {
     start(message);
 });
 
-function start(message) {
+function start(message: Message) {
     if (state === 'STARTED') {
         return;
     }
@@ -50,7 +50,7 @@ function start(message) {
         log('Registered keepAlive');
 
         // Connect to the MQTT broker
-        const mqttConfig = {
+        const mqttConfig: IClientOptions = {
             clientId,
             clean: true,
             connectTimeout: 4000,
@@ -68,14 +68,14 @@ function start(message) {
 
         log(`Connecting to MQTT server with: ${JSON.stringify(mqttConfig)}`);
 
-        client = mqtt.connect(connectUrl, mqttConfig);
+        client = connect(connectUrl, mqttConfig);
 
         log('Connected to mqtt server');
 
         log("Sending Home Assistant auto-discovery configs..")
         // Send the Home Assistant auto-discovery configs
         try {
-            let pubOptions = { qos: 0, retain: true };
+            let pubOptions: IClientPublishOptions = {qos: 0, retain: true};
             client.publish(topicAutoDiscoveryPlayState, JSON.stringify(createAutoDiscoveryConfig("mdi:play-pause", "play", "Play State")), pubOptions, function (err) {
                 if (err) {
                     log(`An error occurred during publish to ${topicAutoDiscoveryPlayState}`);
@@ -112,7 +112,7 @@ function start(message) {
 
         // Publish initial state
         try {
-            let pubOptions = { qos: 0, retain: false };
+            let pubOptions: IClientPublishOptions = {qos: 0, retain: false};
             client.publish(topicState, JSON.stringify(createState('idle', 'unknown', 'unknown')), pubOptions, function (err) {
                 if (err) {
                     log(`An error occurred during publish to ${topicState}`);
@@ -133,7 +133,7 @@ function start(message) {
 
         // Set availability to online
         try {
-            let pubOptions = { qos: 0, retain: true };
+            let pubOptions: IClientPublishOptions = {qos: 0, retain: true};
             client.publish(topicAvailability, "online", pubOptions, function (err) {
                 if (err) {
                     log(`An error occurred during publish to ${topicAvailability}`);
@@ -154,7 +154,7 @@ function start(message) {
 
         log('Subscribing to media service');
         // Subscribe to the com.webos.media service, to receive updates from the tv
-        service.subscribe('luna://com.webos.media/getForegroundAppInfo', { 'subscribe': true })
+        service.subscribe('luna://com.webos.media/getForegroundAppInfo', {'subscribe': true})
             .on('response', function (message) {
                 if (message.payload && message.payload.foregroundAppInfo) {
                     if (Array.isArray(message.payload.foregroundAppInfo) && message.payload.foregroundAppInfo.length > 0) {
@@ -181,7 +181,7 @@ function start(message) {
                 }
 
                 try {
-                    let pubOptions = { qos: 0, retain: true };
+                    let pubOptions: IClientPublishOptions = {qos: 0, retain: true};
                     client.publish(topicAvailability, "online", pubOptions, function (err) {
                         if (err) {
                             log(`An error occurred during publish to ${topicAvailability}`);
@@ -266,7 +266,7 @@ service.register('getState', function (message) {
     });
 });
 
-function createAutoDiscoveryConfig(icon, id, name) {
+function createAutoDiscoveryConfig(icon: string, id: string, name: string) {
     return {
         "icon": `${icon}`,
         "~": `LGTV2MQTT/${deviceID}/`,
@@ -285,10 +285,6 @@ function createAutoDiscoveryConfig(icon, id, name) {
     };
 }
 
-function createState(play, app, type) {
-    return {
-        'play': `${play}`,
-        'app': `${app}`,
-        'type': `${type}`
-    };
+function createState(play: string, app: string, type: string) {
+    return {play, app, type};
 }
