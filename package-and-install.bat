@@ -3,7 +3,8 @@
 echo "Compiling service"
 cd tv-service
 @REM npm run build
-CMD /C "%ProgramFiles%\nodejs\npm" run build --loglevel error
+CMD /C "%ProgramFiles%\nodejs\npm" run install
+CMD /C "%ProgramFiles%\nodejs\npm" run build
 echo "Adding stuff"
 CMD /C "%ProgramFiles%\nodejs\npm" run postbuild-win
 cd ..

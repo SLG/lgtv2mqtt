@@ -1,6 +1,7 @@
 echo "Compiling service"
 cd tv-service || exit
-npm run build --loglevel error
+npm install
+npm run build
 echo "Adding stuff"
 npm run postbuild-linux
 cd .. || exit
