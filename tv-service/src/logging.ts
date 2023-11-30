@@ -2,7 +2,7 @@ export class Logging {
     private logs: string[] = [];
 
     log(...s: any[]) {
-        this.logs.unshift(`${new Date().toISOString()} - ${s}`);
+        this.logs.unshift(`${new Date().toISOString()} - ${JSON.stringify(s)}`);
     }
 
     getLogs() {

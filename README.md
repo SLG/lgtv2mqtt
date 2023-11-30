@@ -16,21 +16,19 @@ ares-setup-device
 ```shell
 npm install
 ```
-- Update these fields:
+- Update these fields in `src\index.ts`:
 ```javascript
-const host = 'YOUR MQTT BROKER HOST';
-const port = '1883'; // OR THE POR OF THE BROKER
-const username = 'YOUR MQTT USERNAME';
-const password = 'YOUR MQTT PASSWORD';
+const config: LgTvMqttConfig = {
+   host: 'YOUR MQTT BROKER HOST',
+   port: 1883,
+   username: 'YOUR MQTT USERNAME',
+   password: 'YOUR MQTT PASSWORD',
+   deviceID: 'webOSTVService'
+};
 ```
-- Run the following commands:
-```shell
-cd tv-service
-npm i
-cd ..
-ares-package tv-app/ tv-service/
-ares-install ./com.slg.lgtv2mqtt_0.0.1_all.ipk
-```
+- Update `package-and-install.bat` with the id of your tv, if needed
+- Run `package-and-install.bat`
+
 The service and app are now installed.
 
 ## Starting the service
@@ -55,7 +53,7 @@ action:
       entity_id: var.tv_media_source
   - service: media_player.select_source
     data:
-      source: MQTT TV App
+      source: LG TV 2 MQTT TV App
     target:
       entity_id: media_player.living_room_tv
   - delay:
@@ -72,17 +70,32 @@ mode: single
 ```
 
 ## Using the service
-In Home Assistant, add two new sensors:
+If you have the MQTT integration enabled in Home Assistant, the service should be auto discovered:
+
+[//]: # (TODO add screenshot)
+
+The `sensor.webostvservice_play_state` should be updated when you play, pause, or stop an app on the tv.
+
+An example automation:
+
 ```yaml
-sensor:
-  - platform: mqtt
-    name: "LG TV PlayState"
-    state_topic: "tv-service/playState"
-  - platform: mqtt
-    name: "LG TV AppId"
-    state_topic: "tv-service/appId"
+alias: Turn lights off when playing a movie
+description: ""
+trigger:
+  - platform: state
+    entity_id:
+      - sensor.webostvservice_play_state
+    to: playing
+condition: []
+action:
+  - service: light.turn_off
+    target:
+      entity_id:
+        - light.some_light_entity
+    data: {}
+mode: single
+
 ```
-Now you can make an automation to listen to these states and turn lights on or off, or whatever you want to do...
 
 ## Renew Devmode session
 
@@ -114,9 +127,9 @@ Now you can make an automation to listen to these states and turn lights on or o
 
 notes:
 
-the key is located in ~/ssh name is webos with your device name
+The key is located in ~/ssh name is webos with your device name
 
-you can ignore the prompting error message
+You can ignore the prompting error message
 
 [source](https://www.reddit.com/r/jellyfin/comments/ryowwb/i_created_a_simple_script_to_renew_the_devmode_on/)
 
@@ -124,5 +137,4 @@ you can ignore the prompting error message
 # TODO
 - Use the app to configure the service via the tv
 - Send a screenshot/some color information to color lights when pausing
-- Move to Typescript
 - [Renew developer session automatically](https://github.com/SR-Lut3t1um/Webos-renew-dev/)

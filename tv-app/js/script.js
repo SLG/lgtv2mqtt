@@ -1,3 +1,5 @@
+document.getElementById("error").innerHTML = 'Javascript file has loaded';
+
 function start() {
     try {
         webOS.service.request("luna://com.slg.lgtv2mqtt.service/", {
