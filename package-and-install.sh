@@ -2,7 +2,7 @@ echo "Compiling service"
 cd tv-service || exit
 npm run build --loglevel error
 echo "Adding stuff"
-npm run postbuild
+npm run postbuild-linux
 cd .. || exit
 
 echo "Packaging"
